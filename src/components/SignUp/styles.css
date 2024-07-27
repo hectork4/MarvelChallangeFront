@@ -1,0 +1,25 @@
+.signUp-menu {
+  margin-bottom: 50px;
+  padding: 0 50px;
+  text-align: right;
+}
+
+.signUp-menu .user {
+  color: #276717;
+  text-decoration: underline;
+}
+
+.signUp-item-button {
+  margin: 5px;
+}
+
+.signUp-item-button:hover {
+  color: #276717;
+}
+
+.signUp-item-button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}

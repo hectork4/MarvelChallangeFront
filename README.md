@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+## Consideraciones
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto incluye un sistema de autenticación opcional. Al iniciar la aplicación, los usuarios verán las opciones de Login (Iniciar sesión) y Register (Registrarse) si no están autenticados. Por el contrario, si el usuario ya está autenticado, se mostrará la opción de Logout (Cerrar sesión) en lugar de las opciones de inicio de sesión y registro.
 
-## Available Scripts
+Para evaluar el sistema de autenticación, es necesario que el back-end esté en funcionamiento. Debe ejecutar el servidor del back-end, que se ejecutará en el puerto 3001. Asegúrese de que el back-end esté correctamente configurado y en ejecución para permitir que el sistema de autenticación funcione adecuadamente.
 
-In the project directory, you can run:
+Si decide probar el sistema de autenticación, siga estos pasos:
+
+Inicie el servidor del back-end: Asegúrese de que el back-end esté corriendo en el puerto 3001. Esto permitirá que la aplicación front-end se comunique correctamente con el servidor para manejar el inicio de sesión, el registro y la sesión del usuario.
+
+## Opcional - Ejecutar BackEnd
+
+### `npm run dev` <=== en la terminal del proyecto back
+
+En el back-end, los datos de usuario (como el nombre de usuario, la contraseña y los favoritos) se almacenan localmente en un archivo JSON. Esta implementación permite que la selección de favoritos hecha en el front-end se persista de manera efectiva. El back-end está desarrollado en Node.js utilizando un modelo MVC simplificado. Esta aproximación se eligió para completar el proyecto en un plazo de menos de tres días.
+
+En cuanto a la autenticación, aunque de manera temporal y no recomendada, los tokens se almacenan en el estado global y en sessionStorage durante las pruebas. Sin embargo, la sesión del usuario se mantiene principalmente mediante cookies, lo que permite la interacción continua con el back-end.
+
+Actualmente, el consumo de la API de Marvel enfrenta varias dificultades, principalmente relacionadas con problemas de tiempo de espera (timeouts). Para mitigar estos problemas, se ha optado por utilizar TanstackQuery. Esta herramienta ayuda a gestionar el almacenamiento en caché de manera eficiente y asegura que, en la medida de lo posible, se reutilicen las respuestas obtenidas.
+
+Debido a las limitaciones de tiempo durante las pruebas, el manejo de errores en la autenticación no se ha desarrollado de manera exhaustiva. En su lugar, se ha implementado una solución con un mensaje genérico cuando no se pudo cumplir la petición.
+
+Para los propósitos de prueba, se ha creado un usuario de prueba en la base de datos local que se utiliza en los tests del proyecto. Este usuario tiene las siguientes credenciales: {username: pepe, password: 123456}.
+
+## Scripts Disponibles
+
+En el directorio del proyecto, puedes ejecutar:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Ejecuta la aplicación en modo de desarrollo.\
+Abre [http://localhost:3000](http://localhost:3000) para verlo en el navegador.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+La página se recargará si haces modificaciones.\
+También verás errores de lint en la consola.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lanza el corredor de pruebas en modo interactivo.\
+Consulta la sección sobre [ejecución de pruebas](https://facebook.github.io/create-react-app/docs/running-tests) para más información.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Construye la aplicación para producción en la carpeta `build`.\
+Agrupa correctamente React en modo de producción y optimiza la compilación para obtener el mejor rendimiento.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+La compilación está minificada y los nombres de archivo incluyen los hashes.\
+¡Tu aplicación está lista para ser desplegada!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Consulta la sección sobre [despliegue](https://facebook.github.io/create-react-app/docs/deployment) para más información.
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Nota: esta es una operación unidireccional. ¡Una vez que `eject`, no puedes volver atrás!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Si no estás satisfecho con la herramienta de construcción y las opciones de configuración, puedes `eject` en cualquier momento. Este comando eliminará la única dependencia de compilación del proyecto.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+En su lugar, copiará todos los archivos de configuración y las dependencias transitivas (webpack, Babel, ESLint, etc.) directamente en tu proyecto para que tengas control total sobre ellos. Todos los comandos excepto `eject` seguirán funcionando, pero apuntarán a los scripts copiados para que puedas modificarlos. En este punto, estás por tu cuenta.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+No tienes que usar `eject`. El conjunto de características curadas es adecuado para pequeños y medianos despliegues, y no deberías sentirte obligado a usar esta característica. Sin embargo, entendemos que esta herramienta no sería útil si no pudieras personalizarla cuando estés listo.
 
-## Learn More
+## Configuración del Entorno
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Asegúrate de configurar las variables de entorno en el archivo `.env` basado en el archivo `.env.template`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Pruebas
+
+Las pruebas están configuradas usando Jest. Puedes encontrar configuraciones adicionales en [jest.config.js](jest.config.js).
+
+Para lanzar las pruebas ejecutar
+
+### `npm run test`
+
+Para lanzar las pruebas de cobertura
+
+### `npm test -- --coverage`
