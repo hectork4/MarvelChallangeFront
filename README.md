@@ -8,7 +8,8 @@ La aplicación sigue una arquitectura basada en React para el front-end y Node.j
 
 - **Autenticación**: El sistema de autenticación permite a los usuarios registrarse, iniciar sesión y cerrar sesión. Las opciones de Login y Register se muestran si el usuario no está autenticado, y la opción de Logout se muestra si el usuario está autenticado.
 - **Persistencia de Datos**: Los datos de usuario, como favoritos, se almacenan en el back-end y se persisten localmente.
-  Consumo de API: Utiliza TanstackQuery para gestionar el almacenamiento en caché y mitigar problemas de tiempo de espera al consumir la API de Marvel.
+- **Consumo de API**: Utiliza TanstackQuery para gestionar el almacenamiento en caché y mitigar problemas de tiempo de espera al consumir la API de Marvel.
+- **Modo Sin Back-End**: La aplicación puede ser utilizada sin el back-end. En este modo, los usuarios pueden agregar personajes de Marvel como favoritos, pero esta selección no se persistirá una vez que se vuelva a ejecutar el sitio. Los personajes y detalles de los seleccionados se mostrarán correctamente, pero los favoritos no se guardarán entre sesiones.
 
 ## Seguridad
 
@@ -32,6 +33,8 @@ La aplicación sigue una arquitectura basada en React para el front-end y Node.j
 Este proyecto incluye un sistema de autenticación opcional. Al iniciar la aplicación, los usuarios verán las opciones de Login (Iniciar sesión) y Register (Registrarse) si no están autenticados. Por el contrario, si el usuario ya está autenticado, se mostrará la opción de Logout (Cerrar sesión) en lugar de las opciones de inicio de sesión y registro junto a nombre del usuario.
 
 Para evaluar el sistema de autenticación, es necesario que el back-end esté en funcionamiento. Debe ejecutar el servidor del back-end, que se ejecutará en el puerto 3001. Asegúrese de que el back-end esté correctamente configurado y en ejecución para permitir que el sistema de autenticación funcione adecuadamente. Es preciso mencionar que los tests que requieren del backEnd fallaran si el mismo no está ejecutandose.
+
+El back-end necesario para este proyecto está disponible en el siguiente repositorio: [https://github.com/hectork4/MarvelChallengeBack](https://github.com/hectork4/MarvelChallengeBack).
 
 Si decide probar el sistema de autenticación, siga estos pasos:
 
