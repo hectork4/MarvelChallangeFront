@@ -2,31 +2,20 @@
 
 ## Arquitectura
 
-La aplicación sigue una arquitectura basada en React para el front-end y Node.js para el back-end. El front-end utiliza un modelo de componentes con React, mientras que el back-end sigue un modelo MVC simplificado. Los datos de usuario se almacenan localmente en un archivo JSON en el back-end.
+La aplicación ha sido construida en React con Typescript para el front-end y Node.js para el back-end. El front-end utiliza un modelo de componentes con React, mientras que el back-end sigue un modelo MVC simplificado. Los datos de usuario se almacenan localmente en un archivo JSON en el back-end.
 
 ## Funcionalidad
 
 - **Autenticación**: El sistema de autenticación permite a los usuarios registrarse, iniciar sesión y cerrar sesión. Las opciones de Login y Register se muestran si el usuario no está autenticado, y la opción de Logout se muestra si el usuario está autenticado.
 - **Persistencia de Datos**: Los datos de usuario, como favoritos, se almacenan en el back-end y se persisten localmente.
-- **Consumo de API**: Utiliza TanstackQuery para gestionar el almacenamiento en caché y mitigar problemas de tiempo de espera al consumir la API de Marvel.
+- **Consumo de API**: Utiliza TanstackQuery para gestionar el almacenamiento en caché y mitigar problemas de tiempo de espera al consumir la API de Marvel. Para ello se optó por llegar a los 50 personajes en dos peticiones ya que se observó que en varias ocaciones la consulta daba un error de timeout al intentar obtener de a más de 30 en una sola petición. Si bien se intenta obtener a los 50 personajes de Marvel en una petición, también se obtienen 25 por si la otra falla. De esta manera se busca mejorar la experiencia del usuario para que si no es posible mostrar los 50, al menos se muestren 25.
+- **Pruebas**: Las pruebas están configuradas usando Jest. Puedes encontrar configuraciones adicionales en jest.config.js y se trazó como meta la superación del 80% del proyecto.
 - **Modo Sin Back-End**: La aplicación puede ser utilizada sin el back-end. En este modo, los usuarios pueden agregar personajes de Marvel como favoritos, pero esta selección no se persistirá una vez que se vuelva a ejecutar el sitio. Los personajes y detalles de los seleccionados se mostrarán correctamente, pero los favoritos no se guardarán entre sesiones.
 
 ## Seguridad
 
-- **Tokens**: Los tokens se almacenan en el estado global y en sessionStorage durante las pruebas. La sesión del usuario se mantiene principalmente mediante cookies.
-- **Errores de Autenticación**: Se ha implementado una solución con un mensaje genérico para manejar errores en la autenticación.
-
-## Pruebas
-
-- **Configuración**: Las pruebas están configuradas usando Jest. Puedes encontrar configuraciones adicionales en jest.config.js.
-- **Ejecución**: Para lanzar las pruebas, se utiliza el comando npm run test. Para pruebas de cobertura, se utiliza npm test -- --coverage.
-- **Back-end**: Algunas pruebas requieren que el back-end esté en funcionamiento en el puerto 3001.
-
-## Scripts Disponibles
-
-- **Desarrollo**: npm start para ejecutar la aplicación en modo de desarrollo.
-- **Pruebas**: npm test para lanzar el corredor de pruebas en modo interactivo.
-- **Producción**: npm run build para construir la aplicación para producción.
+- **Tokens**: Los tokens se almacenan en el estado global y en sessionStorage durante las pruebas. La sesión del usuario se mantiene mediante cookies.
+- **Errores de Autenticación**: Se ha implementado una solución con un mensaje genérico para manejar errores en la autenticación desde el servidor. Pero si se mantiene un manejo de errores más detallado en el frontal para errores que no involucran al servidor.
 
 # Consideraciones
 
@@ -76,11 +65,6 @@ Abre [http://localhost:3000](http://localhost:3000) para verlo en el navegador.
 La página se recargará si haces modificaciones.\
 También verás errores de lint en la consola.
 
-### `npm test`
-
-Lanza el corredor de pruebas en modo interactivo.\
-Consulta la sección sobre [ejecución de pruebas](https://facebook.github.io/create-react-app/docs/running-tests) para más información.
-
 ### `npm run build`
 
 Construye la aplicación para producción en la carpeta `build`.\
@@ -90,16 +74,6 @@ La compilación está minificada y los nombres de archivo incluyen los hashes.\
 ¡Tu aplicación está lista para ser desplegada!
 
 Consulta la sección sobre [despliegue](https://facebook.github.io/create-react-app/docs/deployment) para más información.
-
-### `npm run eject`
-
-**Nota: esta es una operación unidireccional. ¡Una vez que `eject`, no puedes volver atrás!**
-
-Si no estás satisfecho con la herramienta de construcción y las opciones de configuración, puedes `eject` en cualquier momento. Este comando eliminará la única dependencia de compilación del proyecto.
-
-En su lugar, copiará todos los archivos de configuración y las dependencias transitivas (webpack, Babel, ESLint, etc.) directamente en tu proyecto para que tengas control total sobre ellos. Todos los comandos excepto `eject` seguirán funcionando, pero apuntarán a los scripts copiados para que puedas modificarlos. En este punto, estás por tu cuenta.
-
-No tienes que usar `eject`. El conjunto de características curadas es adecuado para pequeños y medianos despliegues, y no deberías sentirte obligado a usar esta característica. Sin embargo, entendemos que esta herramienta no sería útil si no pudieras personalizarla cuando estés listo.
 
 ## Configuración del Entorno
 
@@ -112,6 +86,9 @@ Las pruebas están configuradas usando Jest. Puedes encontrar configuraciones ad
 Para lanzar las pruebas ejecutar
 
 ### `npm run test`
+
+Lanza el corredor de pruebas en modo interactivo.\
+Consulta la sección sobre [ejecución de pruebas](https://facebook.github.io/create-react-app/docs/running-tests) para más información.
 
 Para lanzar las pruebas de cobertura
 
