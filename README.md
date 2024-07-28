@@ -35,7 +35,7 @@ Inicie el servidor del back-end: Asegúrese de que el back-end esté corriendo e
 
 En el back-end, los datos de usuario (como el nombre de usuario, la contraseña y los favoritos) se almacenan localmente en un archivo JSON. Esta implementación permite que la selección de favoritos hecha en el front-end se persista de manera efectiva. El back-end está desarrollado en Node.js utilizando un modelo MVC simplificado. Esta aproximación se eligió para completar el proyecto en un plazo de menos de tres días.
 
-En cuanto a la autenticación, aunque de manera temporal y no recomendada, los tokens se almacenan en el estado global y en sessionStorage durante las pruebas. Sin embargo, la sesión del usuario se mantiene principalmente mediante cookies, lo que permite la interacción continua con el back-end.
+En cuanto a la autenticación, la sesión del usuario se mantiene principalmente mediante cookies, lo que permite la interacción continua con el back-end.
 
 Actualmente, el consumo de la API de Marvel enfrenta varias dificultades, principalmente relacionadas con problemas de tiempo de espera (timeouts). Para mitigar estos problemas, se ha optado por utilizar TanstackQuery. Esta herramienta ayuda a gestionar el almacenamiento en caché de manera eficiente y asegura que, en la medida de lo posible, se reutilicen las respuestas obtenidas.
 
