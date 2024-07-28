@@ -1,8 +1,37 @@
-## Consideraciones
+# Marvel app Summary
 
-Este proyecto incluye un sistema de autenticación opcional. Al iniciar la aplicación, los usuarios verán las opciones de Login (Iniciar sesión) y Register (Registrarse) si no están autenticados. Por el contrario, si el usuario ya está autenticado, se mostrará la opción de Logout (Cerrar sesión) en lugar de las opciones de inicio de sesión y registro.
+## Arquitectura
 
-Para evaluar el sistema de autenticación, es necesario que el back-end esté en funcionamiento. Debe ejecutar el servidor del back-end, que se ejecutará en el puerto 3001. Asegúrese de que el back-end esté correctamente configurado y en ejecución para permitir que el sistema de autenticación funcione adecuadamente.
+La aplicación sigue una arquitectura basada en React para el front-end y Node.js para el back-end. El front-end utiliza un modelo de componentes con React, mientras que el back-end sigue un modelo MVC simplificado. Los datos de usuario se almacenan localmente en un archivo JSON en el back-end.
+
+## Funcionalidad
+
+- **Autenticación**: El sistema de autenticación permite a los usuarios registrarse, iniciar sesión y cerrar sesión. Las opciones de Login y Register se muestran si el usuario no está autenticado, y la opción de Logout se muestra si el usuario está autenticado.
+- **Persistencia de Datos**: Los datos de usuario, como favoritos, se almacenan en el back-end y se persisten localmente.
+  Consumo de API: Utiliza TanstackQuery para gestionar el almacenamiento en caché y mitigar problemas de tiempo de espera al consumir la API de Marvel.
+
+## Seguridad
+
+- **Tokens**: Los tokens se almacenan en el estado global y en sessionStorage durante las pruebas. La sesión del usuario se mantiene principalmente mediante cookies.
+- **Errores de Autenticación**: Se ha implementado una solución con un mensaje genérico para manejar errores en la autenticación.
+
+## Pruebas
+
+- **Configuración**: Las pruebas están configuradas usando Jest. Puedes encontrar configuraciones adicionales en jest.config.js.
+- **Ejecución**: Para lanzar las pruebas, se utiliza el comando npm run test. Para pruebas de cobertura, se utiliza npm test -- --coverage.
+- **Back-end**: Algunas pruebas requieren que el back-end esté en funcionamiento en el puerto 3001.
+
+## Scripts Disponibles
+
+- **Desarrollo**: npm start para ejecutar la aplicación en modo de desarrollo.
+- **Pruebas**: npm test para lanzar el corredor de pruebas en modo interactivo.
+- **Producción**: npm run build para construir la aplicación para producción.
+
+# Consideraciones
+
+Este proyecto incluye un sistema de autenticación opcional. Al iniciar la aplicación, los usuarios verán las opciones de Login (Iniciar sesión) y Register (Registrarse) si no están autenticados. Por el contrario, si el usuario ya está autenticado, se mostrará la opción de Logout (Cerrar sesión) en lugar de las opciones de inicio de sesión y registro junto a nombre del usuario.
+
+Para evaluar el sistema de autenticación, es necesario que el back-end esté en funcionamiento. Debe ejecutar el servidor del back-end, que se ejecutará en el puerto 3001. Asegúrese de que el back-end esté correctamente configurado y en ejecución para permitir que el sistema de autenticación funcione adecuadamente. Es preciso mencionar que los tests que requieren del backEnd fallaran si el mismo no está ejecutandose.
 
 Si decide probar el sistema de autenticación, siga estos pasos:
 
@@ -18,9 +47,19 @@ En cuanto a la autenticación, aunque de manera temporal y no recomendada, los t
 
 Actualmente, el consumo de la API de Marvel enfrenta varias dificultades, principalmente relacionadas con problemas de tiempo de espera (timeouts). Para mitigar estos problemas, se ha optado por utilizar TanstackQuery. Esta herramienta ayuda a gestionar el almacenamiento en caché de manera eficiente y asegura que, en la medida de lo posible, se reutilicen las respuestas obtenidas.
 
-Debido a las limitaciones de tiempo durante las pruebas, el manejo de errores en la autenticación no se ha desarrollado de manera exhaustiva. En su lugar, se ha implementado una solución con un mensaje genérico cuando no se pudo cumplir la petición.
+Debido a las limitaciones de tiempo durante las pruebas, el manejo de errores en la autenticación no se ha desarrollado de manera exhaustiva. En su lugar, se ha implementado una solución con un mensaje genérico cuando no se pudo ejecutar alguna petición al servidor correctamente.
 
 Para los propósitos de prueba, se ha creado un usuario de prueba en la base de datos local que se utiliza en los tests del proyecto. Este usuario tiene las siguientes credenciales: {username: pepe, password: 123456}.
+
+## Front End
+
+Para que la aplicación funcione correctamente, necesitas configurar las siguientes variables de entorno en tu archivo .env de la forma en que sejé un template del mismo en el proyecto. Para ello debe considerar
+
+- Regístrate en el Portal de Marvel Developer y obtén tus claves API.
+- Genera el hash necesario para la autenticación con los valores de timestamp, privateKy y publicKey generados en el paso anterior.
+- Configura las variables de entorno en tu archivo .env.
+
+La construcción de la URL a ser consumida se realiza en el archivo data.ts en el source del proyecto.
 
 ## Scripts Disponibles
 

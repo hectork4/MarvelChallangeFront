@@ -32,16 +32,9 @@ export default function useUser() {
     setState({ ...state, loading: false });
   };
 
-  const register = async ({
-    username,
-    password,
-    confirmPassword,
-  }: RegisterUser) => {
+  const register = async ({ username, password }: RegisterUser) => {
     setState({ loading: true, error: false });
-    if (password !== confirmPassword) {
-      setState({ loading: false, error: true });
-      return;
-    }
+
     registerService({ username, password: `${password}` })
       .then(({ jwt, username }) => {
         if (jwt) {

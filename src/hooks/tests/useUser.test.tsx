@@ -107,21 +107,6 @@ describe("useUser Hook", () => {
     expect(result.current.hasLoginError).toBe(false);
   });
 
-  it("should handle register error if passwords do not match", async () => {
-    const { result } = renderHook(() => useUser(), { wrapper });
-
-    await act(async () => {
-      await result.current.register({
-        username: "testUser",
-        password: "password",
-        confirmPassword: "wrong-password",
-      });
-    });
-
-    expect(result.current.isLoginLoading).toBe(false);
-    expect(result.current.hasLoginError).toBe(true);
-  });
-
   it("should logout user and clear session storage", () => {
     const { result } = renderHook(() => useUser(), { wrapper });
 

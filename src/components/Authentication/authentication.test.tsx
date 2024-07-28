@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Authentication from "./index";
 import useUser from "../../hooks/useUser";
@@ -43,9 +43,11 @@ describe("Authentication Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Login" }));
 
-    expect(mockLogin).toHaveBeenCalledWith({
-      username: "testuser",
-      password: "password",
+    await waitFor(() => {
+      expect(mockLogin).toHaveBeenCalledWith({
+        username: "testuser",
+        password: "password",
+      });
     });
   });
 
@@ -64,10 +66,12 @@ describe("Authentication Component", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
-    expect(mockRegister).toHaveBeenCalledWith({
-      username: "newuser",
-      password: "newpassword",
-      confirmPassword: "newpassword",
+    await waitFor(() => {
+      expect(mockRegister).toHaveBeenCalledWith({
+        username: "newuser",
+        password: "newpassword",
+        confirmPassword: "newpassword",
+      });
     });
   });
 
@@ -81,11 +85,9 @@ describe("Authentication Component", () => {
 
     render(<Authentication onLogin={mockOnLogin} />);
 
-    expect(screen.getByText("Hubo un error en el proceso")).toBeInTheDocument();
-    expect(screen.getByText("Hubo un error en el proceso")).toHaveAttribute(
-      "role",
-      "alert"
-    );
+    expect(
+      screen.getByText("There was an error connecting. Please try again.")
+    ).toBeInTheDocument();
   });
 
   test("calls onLogin when user is logged in", () => {
@@ -120,5 +122,31 @@ describe("Authentication Component", () => {
 
     const confirmPasswordLabel = screen.getByLabelText("Confirm Password");
     expect(confirmPasswordLabel).toBeInTheDocument();
+  });
+
+  test("shows validation errors on invalid input", async () => {
+    render(<Authentication onLogin={mockOnLogin} isRegister={true} />);
+
+    fireEvent.change(screen.getByPlaceholderText("Username"), {
+      target: { value: "abc" }, // Invalid username, too short
+    });
+    fireEvent.change(screen.getByPlaceholderText("Password"), {
+      target: { value: "12345" }, // Invalid password, too short
+    });
+    fireEvent.change(screen.getByPlaceholderText("Confirm Password"), {
+      target: { value: "123" }, // Doesn't match the password
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
+
+    expect(
+      await screen.findByText("Username must be at least 4 characters.")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Password must be at least 6 characters long.")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Password confirmation is different.")
+    ).toBeInTheDocument();
   });
 });
