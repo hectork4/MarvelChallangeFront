@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TanStackProvider from "../plugins/TanStackProvider";
 
 describe("TanStackProvider", () => {
-  test("renders without error", () => {
+  it("renders without error", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>

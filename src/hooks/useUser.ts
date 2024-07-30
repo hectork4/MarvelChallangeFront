@@ -55,6 +55,7 @@ export default function useUser() {
     handleUser();
     handleFavorites([]);
     window.sessionStorage.setItem("jwt", "");
+    window.localStorage.removeItem("favorites");
   };
 
   const addFavorite = ({ id }: { id: string }) => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getFavorites } from "../services";
+import { getFavoritesFromLocalStorage } from "../helpers/getFavsFromLocal";
 
 interface UserContextProps {
   children: React.ReactNode;
@@ -10,6 +11,8 @@ interface UserContextType {
   handleFavorites: (id: string[]) => void;
   handleUser: (user?: string, jwt?: string) => void;
   toggleFavoriteScreen: (value?: boolean) => void;
+  handleLimit: (value: number) => void;
+  limit: number;
   user: User;
   favoriteScreen?: boolean;
 }
@@ -25,6 +28,8 @@ export const initialContext: UserContextType = {
   handleUser: () => {},
   toggleFavoriteScreen: () => {},
   user: { username: "", token: null },
+  handleLimit: () => {},
+  limit: 25,
 };
 
 const UserContext = React.createContext<UserContextType>(initialContext);
@@ -34,6 +39,7 @@ export default UserContext;
 export function UserContextProvider({ children }: UserContextProps) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [favoriteScreen, setFavoriteScreen] = useState(false);
+  const [limit, setLimit] = useState(25);
 
   const [user, setUser] = useState(() => ({
     token: window.sessionStorage.getItem("jwt"),
@@ -41,7 +47,7 @@ export function UserContextProvider({ children }: UserContextProps) {
   }));
 
   useEffect(() => {
-    if (!user.token) setFavorites([]);
+    handleFavorites(getFavoritesFromLocalStorage());
     user.token &&
       getFavorites({ jwt: user.token })
         .then((res) => {
@@ -49,17 +55,16 @@ export function UserContextProvider({ children }: UserContextProps) {
           setUser({ ...user, username: res.username });
         })
         .catch((error: Error) => {
-          if (error.message.includes("Unauthorized")) {
-            console.error("Unauthorized access");
-            handleUser();
-            handleFavorites([]);
-            window.sessionStorage.setItem("jwt", "");
-          }
+          handleUser();
+          window.sessionStorage.setItem("jwt", "");
+          console.error(error);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleFavorites = (favorites: string[]) => {
+    !user.token &&
+      window.localStorage.setItem("favorites", JSON.stringify(favorites));
     setFavorites(favorites);
   };
 
@@ -74,6 +79,10 @@ export function UserContextProvider({ children }: UserContextProps) {
     });
   };
 
+  const handleLimit = (value: number) => {
+    setLimit(value);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -83,6 +92,8 @@ export function UserContextProvider({ children }: UserContextProps) {
         user,
         toggleFavoriteScreen,
         favoriteScreen,
+        handleLimit,
+        limit,
       }}
     >
       {children}

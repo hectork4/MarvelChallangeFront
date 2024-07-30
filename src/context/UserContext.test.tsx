@@ -49,7 +49,30 @@ describe("UserContextProvider", () => {
     expect(tokenSpan.innerHTML).toBe("testToken");
   });
 
-  it("test handleFavorite function", async () => {
+  it("initial state without token", () => {
+    const TestComponent = () => {
+      const { favorites, user } = useContext(UserContext);
+      return (
+        <div>
+          <span aria-label="favorites">{favorites.join(", ")}</span>
+          <span aria-label="username">{user.username}</span>
+          <span aria-label="token">{user.token}</span>
+        </div>
+      );
+    };
+
+    render(
+      <UserContextProvider>
+        <TestComponent />
+      </UserContextProvider>
+    );
+
+    expect(screen.getByLabelText("favorites").textContent).toBe("");
+    expect(screen.getByLabelText("username").textContent).toBe("");
+    expect(screen.getByLabelText("token").textContent).toBe("");
+  });
+
+  it("test handles functions", async () => {
     const mockFavorites = ["item1", "item2"];
     const mockUsername = "testuser";
 
@@ -59,11 +82,18 @@ describe("UserContextProvider", () => {
     });
 
     const TestComponent = () => {
-      const { handleFavorites, favorites, handleUser, user } =
-        useContext(UserContext);
+      const {
+        handleFavorites,
+        favorites,
+        handleUser,
+        user,
+        handleLimit,
+        limit,
+      } = useContext(UserContext);
 
       useEffect(() => {
         handleUser("testuser", "token");
+        handleLimit(10);
       }, []);
 
       useEffect(() => {
@@ -73,6 +103,8 @@ describe("UserContextProvider", () => {
       return (
         <div>
           <span aria-label="favorites">{favorites.join(", ")}</span>
+          <span aria-label="user">{user.username}</span>
+          <span aria-label="limit">{limit}</span>
         </div>
       );
     };
@@ -85,9 +117,13 @@ describe("UserContextProvider", () => {
 
     const favoritesSpan = screen.getByLabelText("favorites");
     expect(favoritesSpan.innerHTML).toBe("1, 2");
+    const userSpan = screen.getByLabelText("user");
+    expect(userSpan.innerHTML).toBe("testuser");
+    const limitSpan = screen.getByLabelText("limit");
+    expect(limitSpan.innerHTML).toBe("10");
   });
 
-  it("toggleFavoriteScreen function", async () => {
+  it("toggleFavoriteScreen functions", async () => {
     const TestComponent = () => {
       const { toggleFavoriteScreen, favoriteScreen } = useContext(UserContext);
 
@@ -134,29 +170,6 @@ describe("UserContextProvider", () => {
       </UserContextProvider>
     );
 
-    expect(screen.getByLabelText("favorites").textContent).toBe("");
-  });
-
-  it("initial state without token", () => {
-    const TestComponent = () => {
-      const { favorites, user } = useContext(UserContext);
-      return (
-        <div>
-          <span aria-label="favorites">{favorites.join(", ")}</span>
-          <span aria-label="username">{user.username}</span>
-          <span aria-label="token">{user.token}</span>
-        </div>
-      );
-    };
-
-    render(
-      <UserContextProvider>
-        <TestComponent />
-      </UserContextProvider>
-    );
-
-    expect(screen.getByLabelText("favorites").textContent).toBe("");
-    expect(screen.getByLabelText("username").textContent).toBe("");
-    expect(screen.getByLabelText("token").textContent).toBe("");
+    expect(screen.getByLabelText("favorites").textContent).toBe("1, 2");
   });
 });

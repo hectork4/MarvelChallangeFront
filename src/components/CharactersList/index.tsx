@@ -1,21 +1,21 @@
-import React from "react";
-import Character from "../Character";
+import CharacterComponent from "../Character";
 import "./styles.css";
+import { Character } from "../../interfaces/Character";
 
 export default function CharactersList({
   characters,
 }: {
-  characters: Array<any>;
+  characters: Character[];
 }) {
   return (
     <div className="characters-list">
       {characters?.map((character) => {
         return (
-          <Character
+          <CharacterComponent
             key={character.id}
             title={character.name}
             url={character.thumbnail.path + "." + character.thumbnail.extension}
-            id={character.id}
+            id={`${character.id}`}
           />
         );
       })}

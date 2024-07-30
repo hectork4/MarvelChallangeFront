@@ -23,7 +23,7 @@ describe("Authentication Component", () => {
     jest.clearAllMocks();
   });
 
-  test("renders login form", () => {
+  it("renders login form", () => {
     render(<Authentication onLogin={mockOnLogin} />);
 
     expect(screen.getByPlaceholderText("Username")).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("Authentication Component", () => {
     expect(screen.getByRole("button", { name: "Login" })).toBeInTheDocument();
   });
 
-  test("calls login on form submit", async () => {
+  it("calls login on form submit", async () => {
     render(<Authentication onLogin={mockOnLogin} />);
 
     fireEvent.change(screen.getByPlaceholderText("Username"), {
@@ -51,7 +51,7 @@ describe("Authentication Component", () => {
     });
   });
 
-  test("renders registration form and calls register on form submit", async () => {
+  it("renders registration form and calls register on form submit", async () => {
     render(<Authentication onLogin={mockOnLogin} isRegister={true} />);
 
     fireEvent.change(screen.getByPlaceholderText("Username"), {
@@ -75,7 +75,7 @@ describe("Authentication Component", () => {
     });
   });
 
-  test("shows error message on login failure", async () => {
+  it("shows error message on login failure", async () => {
     (useUser as jest.Mock).mockReturnValue({
       login: mockLogin,
       register: mockRegister,
@@ -90,7 +90,7 @@ describe("Authentication Component", () => {
     ).toBeInTheDocument();
   });
 
-  test("calls onLogin when user is logged in", () => {
+  it("calls onLogin when user is logged in", () => {
     (useUser as jest.Mock).mockReturnValue({
       login: mockLogin,
       register: mockRegister,
@@ -103,7 +103,7 @@ describe("Authentication Component", () => {
     expect(mockOnLogin).toHaveBeenCalled();
   });
 
-  test("inputs and button are accessible", () => {
+  it("inputs and button are accessible", () => {
     render(<Authentication onLogin={mockOnLogin} />);
 
     const usernameLabel = screen.getByLabelText("Username");
@@ -117,14 +117,14 @@ describe("Authentication Component", () => {
     expect(loginButton).toHaveAttribute("type", "submit");
   });
 
-  test("registration form inputs are accessible", () => {
+  it("registration form inputs are accessible", () => {
     render(<Authentication onLogin={mockOnLogin} isRegister={true} />);
 
     const confirmPasswordLabel = screen.getByLabelText("Confirm Password");
     expect(confirmPasswordLabel).toBeInTheDocument();
   });
 
-  test("shows validation errors on invalid input", async () => {
+  it("shows validation errors on invalid input", async () => {
     render(<Authentication onLogin={mockOnLogin} isRegister={true} />);
 
     fireEvent.change(screen.getByPlaceholderText("Username"), {

@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import CharactersList from "./index";
+import { characterExample } from "../../hooks/tests/mockCharacter";
 
 jest.mock("../Character", () => ({
   __esModule: true,
@@ -16,7 +17,8 @@ describe("CharactersList Component", () => {
   it("renders a list of characters", () => {
     const characters = [
       {
-        id: "1",
+        ...characterExample,
+        id: 1,
         name: "Character One",
         thumbnail: {
           path: "http://example.com/char1",
@@ -24,7 +26,8 @@ describe("CharactersList Component", () => {
         },
       },
       {
-        id: "2",
+        ...characterExample,
+        id: 2,
         name: "Character Two",
         thumbnail: {
           path: "http://example.com/char2",

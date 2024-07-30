@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Character } from "../interfaces/Character";
 import useCharactersQuery from "./useCharactersQuery";
+import UserContext from "../context/UserContext";
 
 /* El estado de limit y el efecto de cambiarlo según caracteres se creó por la dificultad que se observó en algunas
 ocaciones con la api de marvel. En muchas oportunidades mientras se trabajaba, daba un error de timeout con limit en
@@ -13,7 +14,8 @@ export function useCharacter(id?: string) {
   const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
   const [filterWord, setFilterWord] = useState<string>("");
   const [localCharacters, setLocalCharacters] = useState<Character[]>([]);
-  const [limit, setLimit] = useState(25);
+  const { handleLimit, limit: lastSuccesed } = useContext(UserContext);
+  const [limit, setLimit] = useState(lastSuccesed);
 
   const { characters, isLoading, isFetched, isError } = useCharactersQuery({
     id,
@@ -26,7 +28,8 @@ export function useCharacter(id?: string) {
   }, [characters.length]);
 
   useEffect(() => {
-    if (isFetched && characters.length < 50 && !id) {
+    if (isFetched && characters.length <= 50 && !id && lastSuccesed !== 50) {
+      handleLimit(limit);
       setLimit(50);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

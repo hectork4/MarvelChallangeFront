@@ -1,6 +1,8 @@
 import fetchMock from "jest-fetch-mock";
 import { loginService } from "../";
 
+fetchMock.enableMocks();
+
 describe("loginService", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
@@ -50,5 +52,16 @@ describe("loginService", () => {
         password: "password",
       })
     ).rejects.toThrow("Error: Response is NOT ok");
+  });
+
+  it("should throw an error when there is no network connection", async () => {
+    fetchMock.mockRejectOnce(new Error("Network error: Failed to connect"));
+
+    await expect(
+      loginService({
+        username: "testUser",
+        password: "password",
+      })
+    ).rejects.toThrow("Network error: Failed to connect");
   });
 });
